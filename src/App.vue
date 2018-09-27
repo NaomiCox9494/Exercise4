@@ -50,160 +50,156 @@ export default {
   name: 'app',
   data () {
     return {
-      new Vue({
-        el: '#app',
-        data: {
-          playerWins: 0,
-          computerWins: 0,
-          show: false,
-          rock: 1,
-          paper: 2,
-          scissors: 3,
-          turns: []
-        },
-        watch: {
-          playerWins: function () {
-            this.checkWinner();
-          },
-          computerWins: function() {
-            this.checkWinner();
+      playerWins: 0,
+      computerWins: 0,
+      show: false,
+      rock: 1,
+      paper: 2,
+      scissors: 3,
+      turns: []
+    }
+    },
+      watch: {
+      playerWins: function () {
+        this.checkWinner();
+      },
+      computerWins: function() {
+        this.checkWinner();
+      }
+    },
+    methods: {
+      compChoice: function () {
+        let max = 3;
+        let min = 0;
+
+        return Math.max(Math.floor(Math.random() * max) + 1, min)
+
+      },
+
+      startGame: function () {
+        this.show = true;
+        this.playerWins = 0;
+        this.computerWins = 0;
+        this.turns = [];
+      },
+
+      userRock: function () {
+        //generate computer choice
+        let computerChoice = this.compChoice();
+        console.log(computerChoice);
+        //output winner
+        if (computerChoice == this.paper) {
+          console.log("computerWins");
+          this.computerWins += 1;
+          //check for winner
+          this.turns.unshift({
+            isPlayer: false,
+            text: 'Computer Chose Paper ! Paper Beats Rock ! Computer Wins'
+          })
+        }
+        else if (computerChoice == this.scissors) {
+          console.log("playerWins");
+          this.playerWins += 1;
+          //check for winner
+          this.turns.unshift({
+            isPlayer: true,
+            text: 'Computer Chose Scissors ! Rock Beats Scissors ! You Win'
+          })
+        }
+        else {
+          //check for winner
+          console.log("tie");
+          this.turns.unshift({
+            tie: true,
+            text: 'Computer chose rock, you chose rock! Its a Tie!'
+          })
+        }
+      },
+      userPaper: function () {
+        //generate computer choice. let computerChoice is making a variable that generates random #
+        let computerChoice = this.compChoice();
+        //output winner by adding 1 to the winning player +=
+        if (computerChoice == this.rock) {
+          console.log("playerWins");
+          this.playerWins += 1;
+          //check for winner
+          this.turns.unshift({
+            isPlayer: true,
+            text: 'Computer chose rock! Paper beats rock! You Win!!'
+          })
+        }
+        else if (computerChoice == this.scissors) {
+          console.log("computerWins");
+          this.computerWins += 1;
+          //check for winner
+          this.turns.unshift({
+            isPlayer: false,
+            text: 'Computer chose scissors! Scissors beats paper! Sorry, you lose! '
+          })
+        }
+        else {
+          console.log("tie");
+          this.turns.unshift({
+            tie: true,
+            text: 'Computer chose paper, you chose paper! Its a Tie!! '
+          })
+        }
+      },
+      userScissors: function () {
+        //generate computer choice random number.
+        let computerChoice = this.compChoice();
+        //output winner by adding 1 to winning player +=
+        if (computerChoice == this.rock) {
+          console.log("computerWins");
+          this.computerWins += 1;
+          this.turns.unshift({
+            isPlayer: false,
+            text: 'Computer chose rock! Rock beats Scissors! Sorry, you lose'
+          })
+        }
+
+        else if (computerChoice == this.paper) {
+          console.log("playerWins");
+          this.playerWins += 1;
+          this.turns.unshift({
+            isPlayer: true,
+            text: 'Computer chose paper! Scissors beats paper! You win!'
+          })
+        }
+
+        else {
+          console.log("tie");
+          this.turns.unshift({
+            tie: true,
+            text: 'Computer chose Scissors, you chose Scissors! Its a tie! '
+          })
+        }
+      },
+
+
+      checkWinner: function () {
+        if (this.playerWins == 10) {
+          if (confirm('You won! New Game.')) {
+            this.startGame();
           }
-        },
-        methods: {
-          compChoice: function () {
-            let max = 3;
-            let min = 0;
-
-            return Math.max(Math.floor(Math.random() * max) + 1, min)
-
-          },
-
-          startGame: function () {
-            this.show = true;
-            this.playerWins = 0;
-            this.computerWins = 0;
-            this.turns = [];
-          },
-
-          userRock: function () {
-            //generate computer choice
-            let computerChoice = this.compChoice();
-            console.log(computerChoice);
-            //output winner
-            if (computerChoice == this.paper) {
-              console.log("computerWins");
-              this.computerWins += 1;
-              //check for winner
-              this.turns.unshift({
-                isPlayer: false,
-                text: 'Computer Chose Paper ! Paper Beats Rock ! Computer Wins'
-              })
-            }
-            else if (computerChoice == this.scissors) {
-              console.log("playerWins");
-              this.playerWins += 1;
-              //check for winner
-              this.turns.unshift({
-                isPlayer: true,
-                text: 'Computer Chose Scissors ! Rock Beats Scissors ! You Win'
-              })
-            }
-            else {
-              //check for winner
-              console.log("tie");
-              this.turns.unshift({
-                tie: true,
-                text: 'Computer chose rock, you chose rock! Its a Tie!'
-              })
-            }
-          },
-          userPaper: function () {
-            //generate computer choice. let computerChoice is making a variable that generates random #
-            let computerChoice = this.compChoice();
-            //output winner by adding 1 to the winning player +=
-            if (computerChoice == this.rock) {
-              console.log("playerWins");
-              this.playerWins += 1;
-              //check for winner
-              this.turns.unshift({
-                isPlayer: true,
-                text: 'Computer chose rock! Paper beats rock! You Win!!'
-              })
-            }
-            else if (computerChoice == this.scissors) {
-              console.log("computerWins");
-              this.computerWins += 1;
-              //check for winner
-              this.turns.unshift({
-                isPlayer: false,
-                text: 'Computer chose scissors! Scissors beats paper! Sorry, you lose! '
-              })
-            }
-            else {
-              console.log("tie");
-              this.turns.unshift({
-                tie: true,
-                text: 'Computer chose paper, you chose paper! Its a Tie!! '
-              })
-            }
-          },
-          userScissors: function () {
-            //generate computer choice random number.
-            let computerChoice = this.compChoice();
-            //output winner by adding 1 to winning player +=
-            if (computerChoice == this.rock) {
-              console.log("computerWins");
-              this.computerWins += 1;
-              this.turns.unshift({
-                isPlayer: false,
-                text: 'Computer chose rock! Rock beats Scissors! Sorry, you lose'
-              })
-            }
-
-            else if (computerChoice == this.paper) {
-              console.log("playerWins");
-              this.playerWins += 1;
-              this.turns.unshift({
-                isPlayer: true,
-                text: 'Computer chose paper! Scissors beats paper! You win!'
-              })
-            }
-
-            else {
-              console.log("tie");
-              this.turns.unshift({
-                tie: true,
-                text: 'Computer chose Scissors, you chose Scissors! Its a tie! '
-              })
-            }
-          },
-
-
-          checkWinner: function () {
-            if (this.playerWins == 10) {
-              if (confirm('You won! New Game.')) {
-                this.startGame();
-              }
-              else {
-                this.gameIsRunning = false;
-              }
-            }
-            else if (this.computerWins == 10) {
-              if (confirm('You lost! New game.')) {
-                this.startGame();
-              }
-
-            }
-            else{
-              console.log("Games not over")
-            }
+          else {
+            this.gameIsRunning = false;
+          }
+        }
+        else if (this.computerWins == 10) {
+          if (confirm('You lost! New game.')) {
+            this.startGame();
           }
 
         }
-      });
+        else{
+          console.log("Games not over")
+        }
+      }
+
     }
   }
-}
+
 </script>
 
 <style>
